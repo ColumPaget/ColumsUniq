@@ -1,0 +1,86 @@
+Linux and Unix uniq command
+Quick links
+
+About uniq
+Syntax
+Examples
+Related commands
+Linux and Unix main page
+About uniq
+
+uniq reports or filters out repeated lines in a file.
+Syntax
+uniq [OPTION]... [INPUT [OUTPUT]]
+Description
+
+uniq filters out adjacent, matching lines from input file INPUT, writing the filtered data to output file OUTPUT.
+
+ If INPUT is not specified, uniq reads from the standard input.
+
+ If OUTPUT is not specified, uniq writes to the standard output.
+
+ If no options are specified, matching lines are merged to the first occurrence. 
+Options-c, --count	Prefix lines with a number representing how many times they occurred.
+-d, --repeated	Only print duplicated lines.
+-D, --all-repeated[=delimit-method]	Print all duplicate lines. delimit-method may be one of the following:
+	none	Do not delimit duplicate lines at all. This is the default.
+prepend	Insert a blank line before each set of duplicated lines.
+separate	Insert a blank line between each set of dupliated lines.
+
+ The -D option is the same as specifying --all-repeated=none. 
+-f N, --skip-fields=N	Avoid comparing the first N fields of a line before determining uniqueness. A field is a group of characters, delimited by whitespace.
+
+ This option is useful, for instance, if your document's lines are numbered, and you want to compare everything in the line except the line number. If the option -f 1 were specified, the adjacent lines 
+
+1 This is a line. 
+2 This is a line.
+ would be considered identical. If no -f option were specified, they would be considered unique.
+-i, --ignore-case	Normally, comparisons are case-sensitive. This option performs case-insensitive comparisons instead.
+-s N, --skip-chars=N	Avoid comparing the first N characters of each line when determining uniqueness. This is like the -f option, but it skips individual characters rather than fields.
+-u, --unique	Only print unique lines.
+-z, --zero-terminated	End lines with 0 byte (NULL), instead of a newline.
+-w, --check-chars=N	Compare no more than N characters in lines.
+--help	Display a help message and exit.
+--version	Output version information and exit.
+
+Notes
+
+uniq does not detect repeated lines unless they are adjacent. You may want to sort the input first, or use sort -u instead of uniq. 
+Examples
+
+Let's say we have an eight-line text file, myfile.txt, which contains the following text:
+This is a line.
+This is a line.
+This is a line.
+ 
+This is also a line.
+This is also a line.
+ 
+This is also also a line.
+
+
+Here are several ways to run uniq on this file, and the output it creates:
+
+uniq myfile.txt
+This is a line.
+ 
+This is also a line.
+ 
+This is also also a line.
+
+
+uniq -c myfile.txt
+      3 This is a line.
+      1  
+      2 This is also a line.
+      1  
+      1 This is also also a line.
+
+
+uniq -d myfile.txt
+This is a line. 
+This is also a line. 
+
+
+uniq -u myfile.txt
+This is also also a line.
