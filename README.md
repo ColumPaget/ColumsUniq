@@ -40,6 +40,8 @@ ignore case, output last line of a collated block
 
 
 #SYNTAX
+
+```
 Usage: cuniq [OPTION]... [INPUT [OUTPUT]]
 Filter adjacent matching lines from INPUT (or standard input),
 writing to OUTPUT (or standard output).
@@ -76,3 +78,4 @@ You may want to sort the input first, or use 'sort -u' without 'uniq'.
 (-i, -s, -w, -f and -F can cause non identical lines to be collated together) 
 
 Report bugs to colums.projects@gmail.com
+```
