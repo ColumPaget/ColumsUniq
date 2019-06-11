@@ -15,3 +15,6 @@ check:
 
 install:
 	cp cuniq $(DESTDIR)$(PREFIX)/bin
+
+test: libUseful.so
+	-echo "No tests written yet"
