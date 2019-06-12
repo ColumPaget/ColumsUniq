@@ -1,8 +1,93 @@
 #include "common.h"
-#include "libUseful-2.0/libUseful.h"
-#include <ctype.h>
+
+
+#define ESC 0x1B
 
 int Flags=0;
+
+
+char *AddCharToBuffer(char *Dest, size_t DestLen, char Char)
+{
+char *actb_ptr;
+
+//if (Dest==NULL || ((DestLen % 100)==0)) 
+actb_ptr=(char *) realloc((void *) Dest,DestLen +110);
+//else actb_ptr=Dest;
+
+actb_ptr[DestLen]=Char;
+actb_ptr[DestLen+1]='\0';
+
+return(actb_ptr);
+}
+
+
+char *DeQuoteStr(char *Buffer, const char *Line)
+{
+char *out, *in;
+size_t olen=0;
+char hex[3];
+
+if (Line==NULL) return(NULL);
+out=CopyStr(Buffer,"");
+in=(char *) Line;
+
+while(in && (*in != '\0') )
+{
+	if (*in=='\\')
+	{
+		in++;
+		switch (*in)
+		{
+		  case 'e': 
+			out=AddCharToBuffer(out,olen,ESC);
+			olen++;
+			break;
+
+
+		  case 'n': 
+			out=AddCharToBuffer(out,olen,'\n');
+			olen++;
+			break;
+
+		  case 'r': 
+			out=AddCharToBuffer(out,olen,'\r');
+			olen++;
+			break;
+
+		  case 't': 
+			out=AddCharToBuffer(out,olen,'\t');
+			olen++;
+			break;
+
+			case 'x':
+			in++; hex[0]=*in;
+			in++; hex[1]=*in;
+			hex[2]='\0';
+			out=AddCharToBuffer(out,olen,strtol(hex,NULL,16) & 0xFF);
+			olen++;
+			break;
+
+		  case '\\': 
+		  default:
+			out=AddCharToBuffer(out,olen,*in);
+			olen++;
+			break;
+
+		}
+	}
+	else 
+	{
+		out=AddCharToBuffer(out,olen,*in);
+		olen++;
+	}
+	in++;
+}
+
+return(out);
+}
+
+
+
 
 
 char *VCatStr(char *Dest, const char *Str1,  va_list args)
@@ -128,20 +213,6 @@ return(CatStr(Dest,Src));
 
 
 
-inline char *AddCharToBuffer(char *Dest, size_t DestLen, char Char)
-{
-char *actb_ptr;
-
-//if (Dest==NULL || ((DestLen % 100)==0)) 
-actb_ptr=(char *) realloc((void *) Dest,DestLen +110);
-//else actb_ptr=Dest;
-
-actb_ptr[DestLen]=Char;
-actb_ptr[DestLen+1]='\0';
-
-return(actb_ptr);
-}
-
 
 
 //This function looks at a field specifier (list of fields) and extracts the minimum and
@@ -221,74 +292,6 @@ return(RetStr);
 
 
 
-
-
-#define ESC 0x1B
-
-char *DeQuoteStr(char *Buffer, const char *Line)
-{
-char *out, *in;
-size_t olen=0;
-char hex[3];
-
-if (Line==NULL) return(NULL);
-out=CopyStr(Buffer,"");
-in=(char *) Line;
-
-while(in && (*in != '\0') )
-{
-	if (*in=='\\')
-	{
-		in++;
-		switch (*in)
-		{
-		  case 'e': 
-			out=AddCharToBuffer(out,olen,ESC);
-			olen++;
-			break;
-
-
-		  case 'n': 
-			out=AddCharToBuffer(out,olen,'\n');
-			olen++;
-			break;
-
-		  case 'r': 
-			out=AddCharToBuffer(out,olen,'\r');
-			olen++;
-			break;
-
-		  case 't': 
-			out=AddCharToBuffer(out,olen,'\t');
-			olen++;
-			break;
-
-			case 'x':
-			in++; hex[0]=*in;
-			in++; hex[1]=*in;
-			hex[2]='\0';
-			out=AddCharToBuffer(out,olen,strtol(hex,NULL,16) & 0xFF);
-			olen++;
-			break;
-
-		  case '\\': 
-		  default:
-			out=AddCharToBuffer(out,olen,*in);
-			olen++;
-			break;
-
-		}
-	}
-	else 
-	{
-		out=AddCharToBuffer(out,olen,*in);
-		olen++;
-	}
-	in++;
-}
-
-return(out);
-}
 
 
 

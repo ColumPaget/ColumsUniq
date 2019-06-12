@@ -8,7 +8,7 @@ uniq: uniq.c common.o
 	gcc $(FLAGS) -ocuniq uniq.c common.o
 
 clean:
-	@rm -f *.o cut uniq
+	@rm -f *.o cuniq
 
 check:
 	@./check.sh
@@ -16,5 +16,3 @@ check:
 install:
 	cp cuniq $(DESTDIR)$(PREFIX)/bin
 
-test: libUseful.so
-	-echo "No tests written yet"

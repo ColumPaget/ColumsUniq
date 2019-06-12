@@ -1,9 +1,9 @@
-#cuniq - COLUM'S UNIQ
+# cuniq - COLUM'S UNIQ
 
 cuniq is a unix 'uniq' command with a couple of extra features (and a couple of features missing). cuniq supports multiple delimiters, matching any field within the input, updating the counts of a previous uniq, selectinmg the last or first of a block of machines lines, skipping both fields and characters.
 
 
-#EXAMPLES
+# EXAMPLES
 
 use [ and ] as delimiters to break input into fields, match on field 2
 
@@ -39,7 +39,7 @@ ignore case, output last line of a collated block
 `cat input | cuinq -i -Z`
 
 
-#SYNTAX
+# SYNTAX
 
 ```
 Usage: cuniq [OPTION]... [INPUT [OUTPUT]]
